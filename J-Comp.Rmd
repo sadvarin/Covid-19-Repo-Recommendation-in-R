@@ -1,0 +1,37 @@
+---
+title: "J-Comp"
+author: "19BCE1079 Nirav Das"
+date: "06/09/2021"
+output: html_document
+---
+
+```{r}
+library(MASS)
+library(dplyr)
+```
+
+##import the dataset and basic details
+```{r}
+df <- read.table(file='2021-02-22.tsv', sep = '\t', header = TRUE, fill = TRUE)
+dim(df)
+str(df)
+View(df)
+```
+
+##Filtering the dataset according to the following conditions:
+    It must have both a ReadMe and a Description
+    It must have a primary language name listed (repos that are mostly text, such as a list of articles, might not have a programming language listed)
+    It must have at least one merged PR
+    It must have at least 2 distinct contributors
+    
+```{r}
+df_filtered <- filter(df, has_readme == "TRUE" &
+                        has_merged_prs == "TRUE" &
+                        !is.na(repo_description) &
+                        !is.na(primary_language_name) &
+                        count_distinct_contributors >= 2)
+
+dim(df_filtered)
+```
+
+  
